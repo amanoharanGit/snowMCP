@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "servicenow": {
+      "type": "http",
+      "url": "https://snowmcp.onrender.com/mcp"
+    }
+  }
+}

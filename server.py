@@ -257,12 +257,13 @@ async def health(request):
  
  
 # Mount MCP server alongside health check
-mcp_app = mcp.streamable_http_app()
- 
-app = Starlette(routes=[
-    Route("/health", health),
-    Mount("/", app=mcp_app),
-])
+#mcp_app = mcp.streamable_http_app()
+app = FastAPI()
+mcp.mount(app, path="/mcp")
+#app = Starlette(routes=[
+   # Route("/health", health),
+   # Mount("/", app=mcp_app),
+#])
  
  
 if __name__ == "__main__":

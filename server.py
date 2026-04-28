@@ -11,7 +11,7 @@ SNOW_PASSWORD = os.environ.get("SNOW_PASSWORD", "")
 HEADERS = {"Accept": "application/json", "Content-Type": "application/json"}
  
 # --- FastMCP Server ---
-mcp = FastMCP("ServiceNow MCP Server", json_response=True)
+mcp = FastMCP("ServiceNow MCP Server", json_response=True, stateless_http=True)
  
  
 def snow_auth():
@@ -256,9 +256,8 @@ app = FastAPI()
 def health():
     return {"status": "ok", "service": "ServiceNow MCP Server"}
 
-# Mount MCP at /mcp using streamable HTTP
-mcp_app = mcp.streamable_http_app()
-app.mount("/mcp", mcp_app)
+# Mount at root — FastMCP internally exposes /mcp
+app.mount("/", mcp.streamable_http_app())
 
 if __name__ == "__main__":
     import uvicorn

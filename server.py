@@ -1,5 +1,6 @@
 import os
 import requests
+from fastapi import FastAPI
 from mcp.server.fastmcp import FastMCP
  
 # --- Configuration ---

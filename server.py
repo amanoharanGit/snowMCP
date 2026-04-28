@@ -2,6 +2,7 @@ import os
 import requests
 #from fastapi import FastAPI
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
  
 # --- Configuration ---
 SNOW_INSTANCE_URL = os.environ.get("SNOW_INSTANCE_URL", "").rstrip("/")
@@ -11,7 +12,14 @@ SNOW_PASSWORD = os.environ.get("SNOW_PASSWORD", "")
 HEADERS = {"Accept": "application/json", "Content-Type": "application/json"}
  
 # --- FastMCP Server ---
-mcp = FastMCP("ServiceNow MCP Server", json_response=True, stateless_http=True)
+mcp = FastMCP(
+    "ServiceNow MCP Server",
+    json_response=True,
+    stateless_http=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False
+    )
+)
  
  
 def snow_auth():

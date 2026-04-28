@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: servicenow-mcp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SNOW_INSTANCE_URL
+        sync: false
+      - key: SNOW_USERNAME
+        sync: false
+      - key: SNOW_PASSWORD
+        sync: false

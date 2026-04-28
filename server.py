@@ -247,26 +247,19 @@ def search_incidents(keyword: str, limit: int = 5) -> dict:
     return {"results": records, "count": len(records), "keyword": keyword}
  
  
-# --- Health check endpoint (keeps Render awake) ---
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-from starlette.routing import Route, Mount
- 
- 
-async def health(request):
-    return JSONResponse({"status": "ok", "service": "ServiceNow MCP Server"})
- 
- 
-# Mount MCP server alongside health check
-#mcp_app = mcp.streamable_http_app()
+# --- FastAPI app with health check ---
+from fastapi import FastAPI
+
 app = FastAPI()
-mcp.mount(app, path="/mcp")
-#app = Starlette(routes=[
-   # Route("/health", health),
-   # Mount("/", app=mcp_app),
-#])
- 
- 
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "service": "ServiceNow MCP Server"}
+
+# Mount MCP at /mcp using streamable HTTP
+mcp_app = mcp.streamable_http_app()
+app.mount("/mcp", mcp_app)
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))

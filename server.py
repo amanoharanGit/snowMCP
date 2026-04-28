@@ -247,19 +247,10 @@ def search_incidents(keyword: str, limit: int = 5) -> dict:
     return {"results": records, "count": len(records), "keyword": keyword}
  
  
-# --- FastAPI app with health check ---
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/health")
-def health():
-    return {"status": "ok", "service": "ServiceNow MCP Server"}
-
-# Mount at root — FastMCP internally exposes /mcp
-app.mount("/", mcp.streamable_http_app())
-
+# --- Streamable HTTP ---
 if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("server:app", host="0.0.0.0", port=port)
+    mcp.run(
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000))
+    )

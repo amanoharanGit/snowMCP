@@ -1,5 +1,4 @@
-mcp[cli]==1.6.0
-fastapi
+mcp[cli]==1.27.0
 uvicorn
 requests
 python-dotenv

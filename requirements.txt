@@ -1,6 +1,5 @@
-mcp[cli]
+mcp[cli]==1.6.0
 fastapi
 uvicorn
 requests
 python-dotenv
-starlette

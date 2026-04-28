@@ -249,8 +249,9 @@ def search_incidents(keyword: str, limit: int = 5) -> dict:
  
 # --- Streamable HTTP ---
 if __name__ == "__main__":
-    mcp.run(
-        transport="streamable-http",
+    import uvicorn
+    uvicorn.run(
+        mcp.streamable_http_app(),
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 8000))
     )
